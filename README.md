@@ -15,7 +15,7 @@ Das Routing ist zuständig für die Auslösung der URLs zu PHP-Funktionen. Somit
 
 Einfach eine `.htaccess` Datei im entsprechenden Verzeichnis hinzufügen:
 
-```
+```apacheconf
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-d

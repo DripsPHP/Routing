@@ -1,6 +1,8 @@
 # Routing
 
 [![Build Status](https://travis-ci.org/Prowect/Routing.svg)](https://travis-ci.org/Prowect/Routing)
+[![Code Climate](https://codeclimate.com/github/Prowect/Routing/badges/gpa.svg)](https://codeclimate.com/github/Prowect/Routing)
+[![Test Coverage](https://codeclimate.com/github/Prowect/Routing/badges/coverage.svg)](https://codeclimate.com/github/Prowect/Routing/coverage)
 
 ## Beschreibung
 

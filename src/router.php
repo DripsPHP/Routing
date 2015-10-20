@@ -12,69 +12,68 @@ use Closure;
 /**
  * Class Router.
  *
- * This class can be used for routing systems which means, you can register routes
- * and when calling a specific url the router can check if this route is registered
+ * This class is used for routing. This means you can register routes
+ * and if you're calling a specific url the router can check if this route is registered
  * and can respond.
  */
 class Router
 {
     /**
-     * contains registered routes.
-     * key is the name of the route and value is an array of the attributes of
-     * the route.
+     * Contains the registered routes.
+     * Array-keys are the names of the routes and values are arrays of attributes of
+     * a route.
      *
      * @var array
      */
     protected $routes = array();
 
     /**
-     * contains the current route, which was found by the router.
+     * Contains the current route, determined by the router.
      *
      * @var string
      */
     protected $current_route;
 
     /**
-     * contains the requested uri.
+     * Contains the requested uri.
      *
      * @var string
      */
     protected $request_uri;
 
     /**
-     * contains the current directory in which the requested script is located.
+     * Contains the current directory in which the requested script is located.
      *
      * @var string
      */
     protected $current_path;
 
     /**
-     * contains the virtual document root of the router, which means the absolute
-     * path to the requested page.
+     * Contains the virtual document root of the router, which means the absolute
+     * path for the requested page.
      *
      * @var string
      */
     protected $document_root;
 
     /**
-     * contains the requested url.
+     * Contains the requested url.
      *
      * @var string
      */
     protected $url;
 
     /**
-     * contains the parameters from the current route and also the route information
-     * of the current route.
+     * Contains the parameters and information of the current route
      *
      * @var array
      */
     protected $params = array();
 
     /**
-     * creates a new router instance.
-     * the given $url is used for simulating a page request.
-     * if $url is not set, it will automatically choose $_SERVER['REQUEST_URI'].
+     * Creates a new router instance.
+     * The given $url is used for simulating a page request.
+     * If $url is not set, it will automatically choose $_SERVER['REQUEST_URI'].
      *
      * @param string $url "simulate url request"
      */
@@ -93,16 +92,16 @@ class Router
     }
 
     /**
-     * used for registering new routes to the router.
-     * the $url definition could be a regular expression without delimiters or
-     * can contain placeholders like {placeholder}.
-     * the $options can contain following keys:
-     *  - "https" ... boolean - if true, than this route only matches if this is an https-request - default false
-     *  - "verb" ... string or array - specify if this is only allowed using a GET, POST, DELETE or PUT request - default all are allowed
-     *  - "domain" ... string or array - restriction to domains - default all domains are allowed.
+     * Used for registering new routes to the router.
+     * The $url definition can be a regular expression without delimiters or
+     * a string containing placeholders in the form of {placeholder}.
+     * $options can contain following keys:
+     *  - "https" ... boolean - if true, this route only matches if this is an https-request - default: false
+     *  - "verb" ... string or array - specify if this is only allowed using a GET, POST, DELETE or PUT request - default: all allowed
+     *  - "domain" ... string or array - restriction to domains - default: all domains allowed
      *
-     * returns if route has successfully been added. if it fails it will return false.
-     * it only can fail, if $name does already exist
+     * Returns whether the route has successfully been added.
+     * This method only fails if $name is already registered.
      *
      * @param string  $name     unique identifier of the route
      * @param string  $url      route definition, which needs to be matched - can contain placeholders
@@ -128,9 +127,9 @@ class Router
     }
 
     /**
-     * returns if $name is already registered to the router.
+     * Returns whether $name is already registered to the router.
      *
-     * @param string $name name of the route, which should be checked
+     * @param string $name name of the route to be checked
      *
      * @return bool
      */
@@ -140,8 +139,8 @@ class Router
     }
 
     /**
-     * executes the found route.
-     * returns if the requested url was found or not.
+     * Executes the found route.
+     * Returns whether the requested url was found.
      *
      * @return bool
      */
@@ -155,10 +154,10 @@ class Router
     }
 
     /**
-     * executes the route named $name.
-     * returns if the execution was successful or not.
+     * Executes the route named $name.
+     * Returns whether the execution was successful or not.
      *
-     * @param string $name the name of the route which should be executed
+     * @param string $name the name of the route to be executed
      *
      * @return bool
      */
@@ -176,11 +175,10 @@ class Router
     }
 
     /**
-     * returns if the given route is right if https is set or not
-     * which means if you define, that this route should only be available with
-     * https it checks if https is active (requested) and returns true.
+     * Returns true, if the requested route requires https and
+     * https is enabled.
      *
-     * @param string $name the name of the route which sould be checked
+     * @param string $name the name of the route to be checked
      *
      * @return bool
      */
@@ -202,9 +200,9 @@ class Router
     }
 
     /**
-     * returns if the route was requested with the right request_method (verb).
+     * Returns if the route was requested with the correct request_method (verb).
      *
-     * @param string $name the name of the route which should be checked
+     * @param string $name the name of the route to be checked
      *
      * @return bool
      */
@@ -228,10 +226,10 @@ class Router
     }
 
     /**
-     * returns if the route was requested with the correct domain.
-     * you can restrict your route to specific domains.
+     * Returns if the route was requested using the correct domain.
+     * You can restrict your route to specific domains.
      *
-     * @param string $name the name of the route which should be checked
+     * @param string $name the name of the route to be checked
      *
      * @return bool
      */
@@ -255,9 +253,9 @@ class Router
     }
 
     /**
-     * returns if the route matches the requested url.
+     * Returns whether the route matches the requested url.
      *
-     * @param string $name the name of the route which should be checked
+     * @param string $name the name of the route to be checked
      *
      * @return bool
      */

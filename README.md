@@ -11,7 +11,7 @@ Das Routing ist zuständig für die Auslösung der URLs zu PHP-Funktionen. Somit
 ## Installation
 
 1. Die entsprechende PHP-Datei (`router.php`) muss included werden.
-2. Je nach Webserver müssen Sie darauf achten, dass alle Requests, an das entsprechende Script weitergegeben werden.
+2. Je nach Webserver muss berücksichtigt werden, dass alle Requests, an das entsprechende Script weitergegeben werden.
 
 ### Apache 2
 
@@ -94,10 +94,10 @@ $router->add("name_der_route", "/my/url/([A-Za-z]+)", function($name){
 Die Routen können mehrfach eingeschränkt werden:
 
  - auf bestimmte Domains
- - nur bei HTTPS-Verbindungen
+ - nur für HTTPS-Verbindungen
  - auf bestimmte Verbs (Request-Methoden) ... GET, POST, DELETE, PUT
 
-Um eine Einschränkung festzulegen zu können wird beim Hinzufügen einer Route ein weiterer Parameter angegeben. Dieser ist ein Array und beinhaltet alle entsprechenden Einschränkungen.
+Um eine Einschränkung festlegen zu können wird beim Hinzufügen einer Route ein weiterer Parameter angegeben. Dieser ist ein Array und beinhaltet alle gewünschten Einschränkungen.
 
 ```php
 <?php
@@ -112,7 +112,7 @@ $router->add("name_der_route", "/my/url", function(){
 
 ### Routing starten
 
-1. Wenn der Route angelegt und alle Routen registriert sind, dann kann mit dem Routing-Prozess begonnen werden. Dies funktioniert vollkommen automatisch - es muss lediglich die Funktion, die das Routen übernimmt, aufgerufen werden.
+1. Wenn der Router angelegt ist und alle Routen registriert sind, dann kann mit dem Routing-Prozess begonnen werden. Dies funktioniert vollkommen automatisch - es muss lediglich die Funktion, die das Routen übernimmt, aufgerufen werden.
 
 ```php
 <?php

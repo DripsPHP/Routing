@@ -80,19 +80,15 @@ class Router
      */
     public function __construct($url = null)
     {
-        $script_filename = filter_input(INPUT_SERVER, 'SCRIPT_FILENAME');
-        $document_root = filter_input(INPUT_SERVER, 'DOCUMENT_ROOT');
         $request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
-        $this->current_path = dirname($script_filename);
-        $this->document_root = substr($this->current_path, strlen($document_root)).'/';
-        $this->url = substr($request_uri, strlen($this->document_root));
+        $this->current_path = dirname(filter_input(INPUT_SERVER, 'SCRIPT_FILENAME'));
+        $this->document_root = substr($this->current_path, strlen(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'))).'/';
+        $this->request_uri = substr($request_uri, strlen($this->document_root));
         if ($url === null) {
-            $url = '/';
-            if (isset($request_uri)) {
-                $url = $this->url;
-            }
+            $this->request_uri = $request_uri;
+        } else {
+            $this->request_uri = $url;
         }
-        $this->request_uri = $url;
     }
 
     /**

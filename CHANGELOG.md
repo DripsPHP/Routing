@@ -1,3 +1,14 @@
+Version 0.2
+==============================
+Features
+---------------
+ - Links und Pfade generieren
+ - Umleitungen
+
+Bugs
+---------------
+ - Pfade wurden nicht richtig generiert (Document-Root, usw.)
+
 Version 0.1
 ==============================
 Features

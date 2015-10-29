@@ -80,15 +80,6 @@ $router->add("name_der_route", "/my/url/{name}", function($name){
 ));
 ```
 
-Die URL kann auch direkt als regulärer Ausdruck definiert werden.
-
-```php
-<?php
-$router->add("name_der_route", "/my/url/([A-Za-z]+)", function($name){
-    echo "Hello $name!";
-});
-```
-
 #### Routen einschränken
 
 Die Routen können mehrfach eingeschränkt werden:
@@ -128,4 +119,42 @@ Wird keine entsprechende Route gefunden, passiert grundsätzlich gar nichts. Jed
 if(!$router->route()){
     echo "Error 404 - Die Seite wurde nicht gefunden!";
 }
+```
+
+### Links generieren
+
+Damit sich die URLs jederzeit ändern können und auch von unterschiedlichen Verzeichnissen aus aufgerufen werden können, werden die Verlinkungen mit Hilfe der `link` Methode erzeugt.
+
+Ein Link kann wie folgt generiert werden:
+
+```php
+<?php
+$url = $router->link("testRoute");
+```
+
+Übergeben wird der Name der Route. Des weiteren können bei Routen mit Platzhaltern die Links auch entsprechend erzeugt werden, indem einfach die Parameter als Array übergeben werden.
+
+Angenommen es gibt eine Route `/users/{username}`:
+
+```php
+<?php
+$url = $router->link("users", array("username" => "admin"));
+```
+
+### Assets
+
+Das Link-System funktioniert auch für "Dateien", die nicht im Router registriert sind. Gibt es beispielsweise eine CSS-Datei, welcher auf einer bestimmten Seite angezeigt werden soll, kann für diese ebenfalls ein absoluter Pfad generiert werden.
+
+```php
+<?php
+$url = $router->asset("css/style.css");
+```
+
+### Umleitungen
+
+Oftmals ist es notwendig auf eine andere Seite weiterzuleiten. Dies erfolgt über die `redirect`-Methode. Diese funktioniert im Prinzip genau gleich, wie die `link`-Methode, mit dem einzigen Unterschied, dass kein Link zurückgeliefert wird, sondern glecih auf diese Seite weitergeleitet wird.
+
+```
+<?php
+$router->redirect("home");
 ```

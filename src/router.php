@@ -84,9 +84,7 @@ class Router
         $this->current_path = dirname(filter_input(INPUT_SERVER, 'SCRIPT_FILENAME'));
         $this->document_root = substr($this->current_path, strlen(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'))).'/';
         $this->request_uri = substr($request_uri, strlen($this->document_root));
-        if ($url === null) {
-            $this->request_uri = $request_uri;
-        } else {
+        if ($url !== null) {
             $this->request_uri = $url;
         }
     }
@@ -166,10 +164,12 @@ class Router
      *
      * @return bool
      */
-    protected function exec($name)
+    protected function exec($name, array $params = array())
     {
         if ($this->has($name)) {
-            $params = $this->params;
+            if(empty($params)){
+                $params = $this->params;
+            }
             $params['route'] = $this->routes[$name];
             call_user_func_array($this->routes[$name]['callback'], $params);
 
@@ -330,5 +330,58 @@ class Router
         }
 
         return $result;
+    }
+
+    /**
+     * Generiert einen Link zu einer bestimmten Route.
+     *
+     * @param $name Name der Route oder URL
+     *
+     * @return string
+     */
+    public function link($name, array $params = array())
+    {
+        if($this->has($name)){
+            $route = $this->routes[$name];
+            $url = $route['url'];
+            foreach($params as $key => $val){
+                $url = str_replace("{".$key."}", $val, $url);
+            }
+            $url = preg_replace("/\{\w+\}/", "", $url);
+            $name = ltrim($url, '/');
+        }
+        return $this->asset($name);
+    }
+
+    /**
+     * Führt eine Umleitung auf eine bestimmte Route oder URL durch.
+     *
+     * @param $name Name der Route oder URL
+     * @param array $params Parameter für eine zugehörige Route
+     */
+    public function redirect($name, array $params = array())
+    {
+        $url = $this->link($name, $params);
+        if($url === null && filter_var($name, FILTER_VALIDATE_URL)){
+            $url = $name;
+        }
+        if(headers_sent()){
+            echo "<meta http-equiv='refresh' content='0, URL=$url'>";
+        } else {
+            header("Location: $url");
+        }
+    }
+
+    /**
+     * Erzeugt einen absoluten Pfad für die aufgerufene URL eines bestimmten
+     * Assets, beispielsweise einer CSS-Datei oder eines Bildes.
+     *
+     * @param $name
+     *
+     * @return string
+     */
+    public function asset($name)
+    {
+        return preg_replace("`/{2,}`", "/", $this->document_root."/"."/".$name);
     }
 }

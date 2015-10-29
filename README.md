@@ -154,7 +154,7 @@ $url = $router->asset("css/style.css");
 
 Oftmals ist es notwendig auf eine andere Seite weiterzuleiten. Dies erfolgt über die `redirect`-Methode. Diese funktioniert im Prinzip genau gleich, wie die `link`-Methode, mit dem einzigen Unterschied, dass kein Link zurückgeliefert wird, sondern glecih auf diese Seite weitergeleitet wird.
 
-```
+```php
 <?php
 $router->redirect("home");
 ```

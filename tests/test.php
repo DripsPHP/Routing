@@ -27,6 +27,10 @@ class Test extends PHPUnit_Framework_TestCase
         $router->add("users2", "/users/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"]));
         $this->assertTrue($router->route());
         $this->assertFalse($router->add("users2", "/userz/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"])));
+    }
+    
+    public function testSecureRoute() {
+        $router = new Router("/secusers/asdf");
         $router->add("secure", "/secusers/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"], "https" => true));
         $this->assertFalse($router->route());
     }

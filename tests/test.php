@@ -26,6 +26,7 @@ class Test extends PHPUnit_Framework_TestCase
         $this->assertFalse($router->route());
         $router->add("users2", "/users/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"]));
         $this->assertTrue($router->route());
+        $this->assertFalse($router->add("users2", "/userz/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"])));
     }
 
     public function routeProvider()

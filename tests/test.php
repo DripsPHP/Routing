@@ -5,7 +5,7 @@ namespace tests;
 use PHPUnit_Framework_TestCase;
 use Drips\Routing\Router;
 
-require_once __DIR__."/../src/router.php";
+require_once __DIR__."/../vendor/autoload.php";
 
 class Test extends PHPUnit_Framework_TestCase
 {
@@ -28,7 +28,7 @@ class Test extends PHPUnit_Framework_TestCase
         $this->assertTrue($router->route());
         $this->assertFalse($router->add("users2", "/userz/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"])));
     }
-    
+
     public function testSecureRoute() {
         $router = new Router("/secusers/asdf");
         $router->add("secure", "/secusers/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"], "https" => true));

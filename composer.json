@@ -1,0 +1,15 @@
+{
+    "name": "drips/routing",
+    "description": "Ermöglicht zusätzliche Funktionalität mit Hilfe von Sessions in PHP.",
+    "keywords": ["routing", "route", "urls", "redirect"],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4",
+        "drips/http": ">=0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Drips\\Routing\\": "src"
+        }
+    }
+}

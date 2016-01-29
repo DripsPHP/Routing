@@ -7,6 +7,7 @@ php:
   - nightly
 script:
   - composer require codeclimate/php-test-reporter --dev
+  - composer update
   - echo "Running PHPUnit Tests"
   - phpunit --coverage-clover build/logs/clover.xml tests/*
 after_script:

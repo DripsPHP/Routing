@@ -49,12 +49,12 @@ class Router
     protected $current_path;
 
     /**
-     * Beinhaltet den virtuellen Document-Root welcher vom Router bestimmt wurde.
+     * Beinhaltet den virtuellen Root von Drips welcher vom Router bestimmt wurde.
      * Dieser ist ausgehend vom Routing-Script.
      *
      * @var string
      */
-    protected $document_root;
+    protected $drips_root;
 
     /**
      * Beinhaltet die aufgerufene URL.
@@ -82,8 +82,8 @@ class Router
     {
         $request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
         $this->current_path = dirname(filter_input(INPUT_SERVER, 'SCRIPT_FILENAME'));
-        $this->document_root = substr($this->current_path, strlen(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'))).'/';
-        $this->request_uri = substr($request_uri, strlen($this->document_root));
+        $this->drips_root = substr($this->current_path, strlen(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'))).'/';
+        $this->request_uri = substr($request_uri, strlen($this->drips_root));
         if ($url !== null) {
             $this->request_uri = $url;
         }
@@ -153,6 +153,16 @@ class Router
         }
 
         return false;
+    }
+    
+    /**
+     * Liefert den DocumentRoot des Routers.
+     *
+     * @return string
+     */
+    public function getRoot()
+    {
+        return $this->drips_root;
     }
 
     /**
@@ -369,6 +379,7 @@ class Router
             echo "<meta http-equiv='refresh' content='0, URL=$url'>";
         } else {
             header("Location: $url");
+            exit();
         }
     }
 
@@ -382,6 +393,6 @@ class Router
      */
     public function asset($name)
     {
-        return preg_replace("`/{2,}`", "/", $this->document_root."/"."/".$name);
+        return preg_replace("`/{2,}`", "/", $this->drips_root.$name);
     }
 }

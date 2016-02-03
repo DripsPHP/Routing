@@ -12,31 +12,28 @@ class Test extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider routeProvider
      */
-    public function testRouting($route, $url, $result)
-    {
+    public function testRouting($route, $url, $result) {
         $router = new Router($url);
-        $router->add("test", $route, function(){});
+        $router->add("test", $route, function() {});
         $this->assertEquals($router->route(), $result);
     }
 
-    public function testMatchingRouter()
-    {
+    public function testMatchingRouter() {
         $router = new Router("/users/admin");
-        $router->add("users", "/users/{name}", function(){}, array("pattern" => ["name" => "([A-Z]+)"]));
+        $router->add("users", "/users/{name}", function() {}, array("pattern" => ["name" => "([A-Z]+)"]));
         $this->assertFalse($router->route());
-        $router->add("users2", "/users/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"]));
+        $router->add("users2", "/users/{name}", function() {}, array("pattern" => ["name" => "([a-z]+)"]));
         $this->assertTrue($router->route());
-        $this->assertFalse($router->add("users2", "/userz/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"])));
+        $this->assertFalse($router->add("users2", "/userz/{name}", function() {}, array("pattern" => ["name" => "([a-z]+)"])));
     }
 
     public function testSecureRoute() {
         $router = new Router("/secusers/asdf");
-        $router->add("secure", "/secusers/{name}", function(){}, array("pattern" => ["name" => "([a-z]+)"], "https" => true));
+        $router->add("secure", "/secusers/{name}", function() {}, array("pattern" => ["name" => "([a-z]+)"], "https" => true));
         $this->assertFalse($router->route());
     }
 
-    public function routeProvider()
-    {
+    public function routeProvider() {
         return array(
             ["/users", "/users", true],
             ["/users", "/users/", true],
@@ -58,4 +55,20 @@ class Test extends PHPUnit_Framework_TestCase
             ["/test", "/test/falsch", false]
         );
     }
+
+    public function testAsset() {
+        $router = new Router();
+        $result = $router->getRoot()."images/rei.jpg";
+        $this->assertEquals($router->asset("images/rei.jpg"), $result);
+    }
+    
+/*
+    public function testLink() {
+        var_dump($_SERVER);
+        $router = new Router("/users/K");
+        $router->add("users", "/users/{name}", function() {}, array("pattern" => ["name" => "([A-Za-z]+)"]));
+        $this->assertEquals($router->link("users", ["name" => "Loas"]), "/users/Loas");
+    }
+*/
+
 }

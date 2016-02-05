@@ -7,7 +7,7 @@ use Drips\Routing\Router;
 
 require_once __DIR__."/../vendor/autoload.php";
 
-class Test extends PHPUnit_Framework_TestCase
+class RoutingTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider routeProvider
@@ -33,6 +33,21 @@ class Test extends PHPUnit_Framework_TestCase
         $this->assertFalse($router->route());
     }
 
+    public function testAsset() {
+        $router = new Router();
+        $result = $router->getRoot()."images/rei.jpg";
+        $this->assertEquals($router->asset("images/rei.jpg"), $result);
+    }
+
+    /**
+     * @dataProvider linkProvider
+     */
+    public function testLink($route_url, $params, $url) {
+        $router = new Router("/");
+        $router->add("users", $route_url, function() {});
+        $this->assertEquals($router->link("users", $params), dirname($_SERVER["SCRIPT_FILENAME"]).$url);
+    }
+
     public function routeProvider() {
         return array(
             ["/users", "/users", true],
@@ -56,19 +71,12 @@ class Test extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testAsset() {
-        $router = new Router();
-        $result = $router->getRoot()."images/rei.jpg";
-        $this->assertEquals($router->asset("images/rei.jpg"), $result);
+    public function linkProvider() {
+        return array(
+            ["/users/{name}", ["name" => "Loas"], "/users/Loas"],
+            ["/users/{name}/dashboard", ["name" => "Loas"], "/users/Loas/dashboard"],
+            ["/messages", [], "/messages"]
+        );
     }
-    
-/*
-    public function testLink() {
-        var_dump($_SERVER);
-        $router = new Router("/users/K");
-        $router->add("users", "/users/{name}", function() {}, array("pattern" => ["name" => "([A-Za-z]+)"]));
-        $this->assertEquals($router->link("users", ["name" => "Loas"]), "/users/Loas");
-    }
-*/
 
 }

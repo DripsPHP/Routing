@@ -32,7 +32,8 @@ class Router
      *
      * @var string
      */
-    protected $current_route;
+    //protected $current_route;
+    public $current_route;
 
     /**
      * Beinhaltet die aufgerufene URL.
@@ -230,6 +231,7 @@ class Router
             if (isset($route['options']['verb'])) {
                 $verbs = $route['options']['verb'];
                 $request_method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
+                //var_dump($request_method);
                 if (is_array($verbs) && !in_array(strtoupper($request_method), $verbs)) {
                     return false;
                 } elseif (!is_array($verbs) && strtoupper($request_method) != $verbs) {

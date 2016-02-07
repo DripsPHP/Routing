@@ -45,12 +45,9 @@ class RoutingTest extends PHPUnit_Framework_TestCase
      */
     public function testValidVerb($route_url, $params, $url, $verb, $expected) {
         $_SERVER['REQUEST_METHOD'] = $verb;
-        //var_dump($_SERVER['REQUEST_METHOD']);
-        $router = new Router("/verb/get");
-        $router->add("verb", $route_url, function() {}, array("pattern" => ["name" => "([a-z]+)"], "verb" => $verb));
+        $router = new Router($url);
+        $router->add("verb", $route_url, function() {}, $params);
         $result = $router->route();
-        //var_dump($router->current_route);
-        //var_dump($result);
         $this->assertEquals($result, $expected);
     }
 
@@ -109,9 +106,17 @@ class RoutingTest extends PHPUnit_Framework_TestCase
 
     public function verbProvider() {
         return array(
-            ["/verb/{name}", ["name" => "get"], "/verb/get", "GET", true],
-            ["/verb/{name}", ["name" => "post"], "/verb/post", "POST", false],
-            ["/test", [], "/test", "GET", true]
+            ["/verb/{name}", ["name" => "get", "verb" => "GET"], "/verb/get", "GET", true],
+            ["/verb/{name}", ["name" => "post", "verb" => "POST"], "/verb/post", "POST", true],
+            ["/test", ["verb" => "GET"], "/test", "GET", true],
+            ["/verb/{name}", ["name" => "get", "verb" => "GET"], "/verb/get", "POST", false],
+            ["/verb/{name}", ["name" => "post", "verb" => "POST"], "/verb/post", "GET", false],
+            ["/test", ["verb" => "GET"], "/test", "PUT", false],
+            ["/test", [], "/test", "GET", true],
+            ["/test", [], "/test", "POST", true],
+            ["/test", [], "/test", "PATCH", true],
+            ["/test", [], "/test", "PUT", true],
+            ["/test", [], "/test", "DELETE", true]
         );
     }
 

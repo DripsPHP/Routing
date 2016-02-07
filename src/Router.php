@@ -32,8 +32,7 @@ class Router
      *
      * @var string
      */
-    //protected $current_route;
-    public $current_route;
+    protected $current_route;
 
     /**
      * Beinhaltet die aufgerufene URL.
@@ -155,7 +154,7 @@ class Router
 
         return false;
     }
-    
+
     /**
      * Liefert den DocumentRoot des Routers.
      *
@@ -230,8 +229,7 @@ class Router
             $route = $this->routes[$name];
             if (isset($route['options']['verb'])) {
                 $verbs = $route['options']['verb'];
-                $request_method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
-                //var_dump($request_method);
+                $request_method = $_SERVER['REQUEST_METHOD'];
                 if (is_array($verbs) && !in_array(strtoupper($request_method), $verbs)) {
                     return false;
                 } elseif (!is_array($verbs) && strtoupper($request_method) != $verbs) {
@@ -396,5 +394,15 @@ class Router
     public function asset($name)
     {
         return preg_replace("`/{2,}`", "/", $this->drips_root.$name);
+    }
+
+    /**
+     * Liefert die aktuell gewählte Route zurück
+     *
+     * @return mixed
+     */
+    public function getCurrent()
+    {
+        return $this->current_route;
     }
 }

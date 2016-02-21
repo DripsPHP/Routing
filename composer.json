@@ -1,6 +1,6 @@
 {
     "name": "drips/routing",
-    "description": "Ermöglicht zusätzliche Funktionalität mit Hilfe von Sessions in PHP.",
+    "description": "PHP-Routing-System zur Verknüpfung von URLs mit Funktionen - Ideal für APIs (Web-Services) bzw. schöne (benutzerdefinierte) URLs.",
     "keywords": ["routing", "route", "urls", "redirect"],
     "license": "MIT",
     "require": {

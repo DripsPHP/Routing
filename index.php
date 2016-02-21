@@ -2,7 +2,7 @@
 
 use Drips\Routing\Router;
 
-require_once 'src/router.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 $router = new Router();
 

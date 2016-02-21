@@ -4,7 +4,7 @@
  * Created by Prowect
  * Author: Raffael Kessler
  * Date: 17.10.2015 - 23:30.
- * Copyright Prowect
+ * Copyright Prowect.
  */
 namespace Drips\Routing;
 
@@ -98,15 +98,15 @@ class Router
      * einschränken. Dafür gibt es folgende Möglichkeiten:
      *  - "https" ... bool - wenn TRUE, muss die aufgerufene URL über HTTPS aufgerufen worden sein - Standard: FALSE
      *  - "verb" ... string or array - schränkt die Request-Methode ein, also über welche Request-Methoden die Route erreichbar sein soll. - Standard: alle
-     *  - "domain" ... string or array - Beschränkt die Route auf eine oder mehrere bestimmte Domains
+     *  - "domain" ... string or array - Beschränkt die Route auf eine oder mehrere bestimmte Domains.
      *
      * Gibt zurück ob die Route erfolgreich hinzugefügt wurde oder nicht. (TRUE/FALSE)
      * Wenn der Name der Route bereits vergeben ist, kann die Route nicht registriert werden!
 
-     * @param string $name eindeutiger Name der Route
-     * @param string $url Routen-Definition - kann Platzhalter beinhalten
+     * @param string  $name     eindeutiger Name der Route
+     * @param string  $url      Routen-Definition - kann Platzhalter beinhalten
      * @param Closure $callback Funktion, die aufgerufen wird, sobald die Route ausgeführt wird
-     * @param array $options optional - ermöglicht Zusatzinformationen, wie z.B.: Einschränkungen für die Routen
+     * @param array   $options  optional - ermöglicht Zusatzinformationen, wie z.B.: Einschränkungen für die Routen
      *
      * @return bool
      */
@@ -177,10 +177,9 @@ class Router
     protected function exec($name, array $params = array())
     {
         if ($this->has($name)) {
-            if(empty($params)){
+            if (empty($params)) {
                 $params = $this->params;
             }
-            $params['route'] = $this->routes[$name];
             call_user_func_array($this->routes[$name]['callback'], $params);
 
             return true;
@@ -272,7 +271,7 @@ class Router
     }
 
     /**
-     * Gibt zurück ob die Route der aufgerufenen URL entspricht
+     * Gibt zurück ob die Route der aufgerufenen URL entspricht.
      *
      * @param string $name Name der Route, die überprüft werden soll.
      *
@@ -351,15 +350,16 @@ class Router
      */
     public function link($name, array $params = array())
     {
-        if($this->has($name)){
+        if ($this->has($name)) {
             $route = $this->routes[$name];
             $url = $route['url'];
-            foreach($params as $key => $val){
-                $url = str_replace("{".$key."}", $val, $url);
+            foreach ($params as $key => $val) {
+                $url = str_replace('{'.$key.'}', $val, $url);
             }
-            $url = preg_replace("/\{\w+\}/", "", $url);
+            $url = preg_replace("/\{\w+\}/", '', $url);
             $name = ltrim($url, '/');
         }
+
         return $this->asset($name);
     }
 
@@ -372,10 +372,10 @@ class Router
     public function redirect($name, array $params = array())
     {
         $url = $this->link($name, $params);
-        if($url === null && filter_var($name, FILTER_VALIDATE_URL)){
+        if ($url === null && filter_var($name, FILTER_VALIDATE_URL)) {
             $url = $name;
         }
-        if(headers_sent()){
+        if (headers_sent()) {
             echo "<meta http-equiv='refresh' content='0, URL=$url'>";
         } else {
             header("Location: $url");
@@ -393,11 +393,11 @@ class Router
      */
     public function asset($name)
     {
-        return preg_replace("`/{2,}`", "/", $this->drips_root.$name);
+        return preg_replace('`/{2,}`', '/', $this->drips_root.$name);
     }
 
     /**
-     * Liefert die aktuell gewählte Route zurück
+     * Liefert die aktuell gewählte Route zurück.
      *
      * @return mixed
      */

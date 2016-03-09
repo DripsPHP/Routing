@@ -8,7 +8,9 @@
  */
 namespace Drips\Routing;
 
-use Closure;
+use Drips\HTTP\Request;
+use Drips\HTTP\Response;
+use Drips\Utils\OutputBuffer;
 
 /**
  * Class Router.
@@ -71,22 +73,27 @@ class Router
     protected $params = array();
 
     /**
+     * Beinhaltet den eingegangen Request.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * Erzeugt eine neue Router-Instanz.
      * Übergeben wird die "aufgerufene" Route. Diese kann optional angegeben werden.
      * Wird diese nicht angegeben, wird automatisch die REQUEST_URI des Servers
      * verwendet.
      *
-     * @param string $url aufgerufene URL um beispielsweise URL-Aufrufe zu simulieren.
+     * @param Request $request
      */
-    public function __construct($url = null)
+    public function __construct(Request $request)
     {
-        $request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI');
-        $this->current_path = dirname(filter_input(INPUT_SERVER, 'SCRIPT_FILENAME'));
-        $this->drips_root = substr($this->current_path, strlen(filter_input(INPUT_SERVER, 'DOCUMENT_ROOT'))).'/';
+        $this->request = $request;
+        $request_uri = $request->server->get('REQUEST_URI');
+        $this->current_path = dirname($request->server->get('SCRIPT_FILENAME'));
+        $this->drips_root = substr($this->current_path, strlen($request->server->get('DOCUMENT_ROOT'))).'/';
         $this->request_uri = substr($request_uri, strlen($this->drips_root));
-        if ($url !== null) {
-            $this->request_uri = $url;
-        }
     }
 
     /**
@@ -103,15 +110,19 @@ class Router
      * Gibt zurück ob die Route erfolgreich hinzugefügt wurde oder nicht. (TRUE/FALSE)
      * Wenn der Name der Route bereits vergeben ist, kann die Route nicht registriert werden!
 
-     * @param string  $name     eindeutiger Name der Route
-     * @param string  $url      Routen-Definition - kann Platzhalter beinhalten
-     * @param Closure $callback Funktion, die aufgerufen wird, sobald die Route ausgeführt wird
-     * @param array   $options  optional - ermöglicht Zusatzinformationen, wie z.B.: Einschränkungen für die Routen
+     * @param string $name     eindeutiger Name der Route
+     * @param string $url      Routen-Definition - kann Platzhalter beinhalten
+     * @param mixed  $callback Funktion, die aufgerufen wird, sobald die Route ausgeführt wird oder ein Controller (MVC)
+     * @param array  $options  optional - ermöglicht Zusatzinformationen, wie z.B.: Einschränkungen für die Routen
      *
      * @return bool
      */
-    public function add($name, $url, Closure $callback, array $options = array())
+    public function add($name, $url, $callback, array $options = array())
     {
+        if (!is_callable($callback) && !class_exists($callback)) {
+            return false;
+        }
+
         if (!$this->has($name)) {
             $this->routes[$name] = array('url' => $url, 'callback' => $callback, 'options' => $options);
             if (!isset($this->current_route)) {
@@ -180,7 +191,19 @@ class Router
             if (empty($params)) {
                 $params = $this->params;
             }
-            call_user_func_array($this->routes[$name]['callback'], $params);
+            $this->request->router = $this;
+            $callback = $this->routes[$name]['callback'];
+            array_unshift($params, $this->request);
+            if (is_callable($callback)) {
+                $response = new Response();
+                $buffer = new OutputBuffer();
+                $buffer->start();
+                echo call_user_func_array($callback, $params);
+                $response->body = $buffer->end();
+                $response->send();
+            } elseif (class_exists($callback)) {
+                $controller = new $callback($this->getVerb(), $params);
+            }
 
             return true;
         }

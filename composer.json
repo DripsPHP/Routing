@@ -5,7 +5,8 @@
     "license": "MIT",
     "require": {
         "php": ">=5.4",
-        "drips/http": ">=0.1"
+        "drips/http": ">=0.2",
+        "drips/utils": ">=0.1"
     },
     "autoload": {
         "psr-4": {

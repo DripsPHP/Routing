@@ -202,7 +202,7 @@ class Router
                 $response->body = $buffer->end();
                 $response->send();
             } elseif (class_exists($callback)) {
-                $controller = new $callback($this->getVerb(), $params);
+                $controller = new $callback($this->request->getVerb(), $params);
             }
 
             return true;

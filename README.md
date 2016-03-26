@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/Prowect/Routing.svg)](https://travis-ci.org/Prowect/Routing)
 [![Code Climate](https://codeclimate.com/github/Prowect/Routing/badges/gpa.svg)](https://codeclimate.com/github/Prowect/Routing)
 [![Test Coverage](https://codeclimate.com/github/Prowect/Routing/badges/coverage.svg)](https://codeclimate.com/github/Prowect/Routing/coverage)
+[![Latest Release](https://img.shields.io/packagist/v/drips/Routing.svg)](https://packagist.org/packages/drips/routing)
 
 ## Beschreibung
 
@@ -58,7 +59,7 @@ $router->add("name_der_route", "/my/url", function(){
 
 #### MVC-Unterstützung
 
-Das Routing-System unterstützt zusätzlich die Verwendung des [https://github.com/Prowect/MVC](Drips-MVC) Systems. Dementsprechend kann beim Hinzufügen von Routen nicht nur eine Funktion sondern auch ein Controller übergeben werden:
+Das Routing-System unterstützt zusätzlich die Verwendung des [Drips-MVC](https://github.com/Prowect/MVC) Systems. Dementsprechend kann beim Hinzufügen von Routen nicht nur eine Funktion sondern auch ein Controller übergeben werden:
 
 ```php
 $router->add("name_der_route", "/my/url", MyController::class);

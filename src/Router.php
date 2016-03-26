@@ -318,11 +318,12 @@ class Router
     /**
      * Sucht nach Platzhaltern in der Routen-Definition und ersetzt diese durch
      * reguläre Ausdrücke.
-     * Gibt die generierte URL zurück.
+     * Gibt die generierte URL zurück oder false wenn es sich um eine leere URL
+     * bzw. um / handelt.
      *
      * @param array $route Routen-Objekt, wie es gespeichert wurde.
      *
-     * @return string
+     * @return string|false
      */
     protected function findPlaceholders($route)
     {
@@ -420,9 +421,10 @@ class Router
     }
 
     /**
-     * Liefert die aktuell gewählte Route zurück.
+     * Liefert die aktuell gewählte Route zurück oder null, wenn keine Route
+     * ausgewählt wurde.
      *
-     * @return mixed
+     * @return string
      */
     public function getCurrent()
     {

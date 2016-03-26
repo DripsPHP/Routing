@@ -26,7 +26,7 @@ Einfach eine `.htaccess` Datei im entsprechenden Verzeichnis hinzufügen:
 </IfModule>
 ```
 
-> Hierfür muss das Rewrite-Modul (`mod_rewrirte`) des Webservers aktiviert sein.
+> Hierfür muss das Rewrite-Modul (`mod_rewrite`) des Webservers aktiviert sein.
 
 ## Verwendung
 
@@ -55,6 +55,14 @@ $router->add("name_der_route", "/my/url", function(){
 > Wird die URL `/my/url` aufgerufen, so wird die festgelegte Funktion ausgeführt und es wird `Hello World!` angezeigt.
 
 > **Achtung:** der Name der Route muss eindeutig sein. Ist der Name bereits vergeben, kann die Route nicht hinzugefügt werden.
+
+#### MVC-Unterstützung
+
+Das Routing-System unterstützt zusätzlich die Verwendung des [https://github.com/Prowect/MVC](Drips-MVC) Systems. Dementsprechend kann beim Hinzufügen von Routen nicht nur eine Funktion sondern auch ein Controller übergeben werden:
+
+```php
+$router->add("name_der_route", "/my/url", MyController::class);
+```
 
 #### Routen mit Platzhaltern
 
@@ -152,7 +160,7 @@ $url = $router->asset("css/style.css");
 
 ### Umleitungen
 
-Oftmals ist es notwendig auf eine andere Seite weiterzuleiten. Dies erfolgt über die `redirect`-Methode. Diese funktioniert im Prinzip genau gleich, wie die `link`-Methode, mit dem einzigen Unterschied, dass kein Link zurückgeliefert wird, sondern glecih auf diese Seite weitergeleitet wird.
+Oftmals ist es notwendig auf eine andere Seite weiterzuleiten. Dies erfolgt über die `redirect`-Methode. Diese funktioniert im Prinzip genau gleich, wie die `link`-Methode, mit dem einzigen Unterschied, dass kein Link zurückgeliefert wird, sondern direkt auf diese Seite weitergeleitet wird.
 
 ```php
 <?php

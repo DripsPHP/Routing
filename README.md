@@ -121,11 +121,13 @@ $router->route();
 
 ### Seite nicht gefunden - Error 404
 
-Wird keine entsprechende Route gefunden, passiert grundsätzlich gar nichts. Jedoch gibt es die Möglichkeit darauf selbstständig zu reagieren.
+Wird keine entsprechende Route gefunden, wird eine `Error404Exception` geworfen.
 
 ```php
 <?php
-if(!$router->route()){
+try {
+    $router->route();
+} catch(Error404Exception $e) {
     echo "Error 404 - Die Seite wurde nicht gefunden!";
 }
 ```

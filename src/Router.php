@@ -154,6 +154,7 @@ class Router
      * Führt die "gefundene" Route aus.
      * Gibt TRUE/FALSE zurück, je nachdem ob die Route ausgeführt werden konnte
      * oder nicht.
+     * Wurde keine Route gefunden, wird eine Error404Exception geworfen.
      *
      * @return bool
      */
@@ -163,7 +164,7 @@ class Router
             return $this->exec($this->current_route);
         }
 
-        return false;
+        throw new Error404Exception;
     }
 
     /**

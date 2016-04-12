@@ -4,6 +4,7 @@ namespace tests;
 
 use PHPUnit_Framework_TestCase;
 use Drips\Routing\Router;
+use Drips\Routing\Error404Exception;
 use Drips\HTTP\Request;
 
 require_once __DIR__."/../vendor/autoload.php";
@@ -21,7 +22,16 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $request->server->set('REQUEST_URI', $url);
         $router = new Router($request);
         $router->add("test", $route, function() {});
-        $this->assertEquals($router->route(), $result);
+        try {
+            $res = $router->route();
+            $this->assertEquals($res, $result);
+        } catch(Error404Exception $e) {
+            if($result){
+                $this->fail();
+            } else {
+                $this->assertFalse($result);
+            }
+        }
     }
 
     public function testMatchingRouter() {
@@ -29,7 +39,12 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $request->server->set('REQUEST_URI', "/users/admin");
         $router = new Router($request);
         $router->add("users", "/users/{name}", function() {}, array("pattern" => ["name" => "([A-Z]+)"]));
-        $this->assertFalse($router->route());
+        try {
+            $router->route();
+            $this->fail();
+        } catch(Error404Exception $e){
+            $this->assertTrue(true);
+        }
         $router->add("users2", "/users/{name}", function() {}, array("pattern" => ["name" => "([a-z]+)"]));
         $this->assertTrue($router->route());
         $this->assertFalse($router->add("users2", "/userz/{name}", function() {}, array("pattern" => ["name" => "([a-z]+)"])));
@@ -40,7 +55,12 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $request->server->set('REQUEST_URI', "/secusers/asdf");
         $router = new Router($request);
         $router->add("secure", "/secusers/{name}", function() {}, array("pattern" => ["name" => "([a-z]+)"], "https" => true));
-        $this->assertFalse($router->route());
+        try {
+            $router->route();
+            $this->fail();
+        } catch(Error404Exception $e) {
+            $this->assertTrue(true);
+        }
     }
 
     public function testAsset() {
@@ -59,8 +79,15 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $request->server->set('REQUEST_URI',$url);
         $router = new Router($request);
         $router->add("verb", $route_url, function() {}, $params);
-        $result = $router->route();
-        $this->assertEquals($result, $expected);
+        try {
+            $this->assertEquals($router->route(), $expected);
+        } catch(Error404Exception $e) {
+            if($expected){
+                $this->fail();
+            } else {
+                $this->assertFalse($expected);
+            }
+        }
     }
 
     /**

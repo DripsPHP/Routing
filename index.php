@@ -1,6 +1,7 @@
 <?php
 
 use Drips\Routing\Router;
+use Drips\Routing\Error404Exception;
 use Drips\HTTP\Request;
 
 require_once __DIR__.'/vendor/autoload.php';
@@ -30,4 +31,8 @@ $router->add('param2', '/test/{param1}/{param2}', function (Request $request, $p
     $request->router->redirect("home");
 });
 
-$router->route();
+try {
+    $router->route();
+} catch(Error404Exception $e) {
+    echo "Error  404";
+}

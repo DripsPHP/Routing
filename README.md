@@ -44,7 +44,7 @@ $router = new Router;
 
 ### Hinzufügen von Routen
 
-1. Nachdem ein entsprechender Router angelegt wurde, können für diesen Routen registriert werden.
+2. Nachdem ein entsprechender Router angelegt wurde, können für diesen Routen registriert werden.
 
 ```php
 <?php
@@ -144,7 +144,7 @@ Ein Link kann wie folgt generiert werden:
 $url = $router->link("testRoute");
 ```
 
-Übergeben wird der Name der Route. Des weiteren können bei Routen mit Platzhaltern die Links auch entsprechend erzeugt werden, indem einfach die Parameter als Array übergeben werden.
+Übergeben wird der Name der Route. Des Weiteren können bei Routen mit Platzhaltern die Links auch entsprechend erzeugt werden, indem einfach die Parameter als Array übergeben werden.
 
 Angenommen es gibt eine Route `/users/{username}`:
 
@@ -155,7 +155,7 @@ $url = $router->link("users", array("username" => "admin"));
 
 ### Assets
 
-Das Link-System funktioniert auch für "Dateien", die nicht im Router registriert sind. Gibt es beispielsweise eine CSS-Datei, welcher auf einer bestimmten Seite angezeigt werden soll, kann für diese ebenfalls ein absoluter Pfad generiert werden.
+Das Link-System funktioniert auch für "Dateien", die nicht im Router registriert sind. Gibt es beispielsweise eine CSS-Datei, welche auf einer bestimmten Seite angezeigt werden soll, kann für diese ebenfalls ein absoluter Pfad generiert werden.
 
 ```php
 <?php

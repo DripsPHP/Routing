@@ -33,7 +33,7 @@ Einfach eine `.htaccess` Datei im entsprechenden Verzeichnis hinzufügen:
 
 ### Anlegen eines Routers
 
-1. Zuerst muss der Router geladen und angelegt werden.
+Zuerst muss der Router geladen und angelegt werden.
 
 ```php
 <?php
@@ -44,7 +44,7 @@ $router = new Router;
 
 ### Hinzufügen von Routen
 
-2. Nachdem ein entsprechender Router angelegt wurde, können für diesen Routen registriert werden.
+Nachdem ein entsprechender Router angelegt wurde, können für diesen Routen registriert werden.
 
 ```php
 <?php
@@ -113,7 +113,7 @@ $router->add("name_der_route", "/my/url", function(){
 
 ### Routing starten
 
-1. Wenn der Router angelegt ist und alle Routen registriert sind, dann kann mit dem Routing-Prozess begonnen werden. Dies funktioniert vollkommen automatisch - es muss lediglich die Funktion, die das Routen übernimmt, aufgerufen werden.
+Wenn der Router angelegt ist und alle Routen registriert sind, dann kann mit dem Routing-Prozess begonnen werden. Dies funktioniert vollkommen automatisch - es muss lediglich die Funktion, die das Routen übernimmt, aufgerufen werden.
 
 ```php
 <?php

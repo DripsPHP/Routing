@@ -7,8 +7,6 @@ use Drips\Routing\Router;
 use Drips\Routing\Error404Exception;
 use Drips\HTTP\Request;
 
-require_once __DIR__."/../vendor/autoload.php";
-
 session_start();
 $_SERVER["SCRIPT_FILENAME"] = "";
 

@@ -38,8 +38,8 @@ Zuerst muss der Router geladen und angelegt werden.
 ```php
 <?php
 use Drips\Routing\Router;
-require_once 'router.php';
-$router = new Router;
+
+$router = Router::getInstance();
 ```
 
 ### Hinzufügen von Routen
@@ -135,13 +135,13 @@ try {
 
 ### Links generieren
 
-Damit sich die URLs jederzeit ändern können und auch von unterschiedlichen Verzeichnissen aus aufgerufen werden können, werden die Verlinkungen mit Hilfe der `link` Methode erzeugt.
+Damit sich die URLs jederzeit ändern können und auch von unterschiedlichen Verzeichnissen aus aufgerufen werden können, werden die Verlinkungen mit Hilfe der `routelink` Funktion erzeugt.
 
 Ein Link kann wie folgt generiert werden:
 
 ```php
 <?php
-$url = $router->link("testRoute");
+$url = routelink("testRoute");
 ```
 
 Übergeben wird der Name der Route. Des Weiteren können bei Routen mit Platzhaltern die Links auch entsprechend erzeugt werden, indem einfach die Parameter als Array übergeben werden.
@@ -150,7 +150,7 @@ Angenommen es gibt eine Route `/users/{username}`:
 
 ```php
 <?php
-$url = $router->link("users", array("username" => "admin"));
+$url = routelink("users", array("username" => "admin"));
 ```
 
 ### Assets
@@ -159,14 +159,14 @@ Das Link-System funktioniert auch für "Dateien", die nicht im Router registrier
 
 ```php
 <?php
-$url = $router->asset("css/style.css");
+$url = asset("css/style.css");
 ```
 
 ### Umleitungen
 
-Oftmals ist es notwendig auf eine andere Seite weiterzuleiten. Dies erfolgt über die `redirect`-Methode. Diese funktioniert im Prinzip genau gleich, wie die `link`-Methode, mit dem einzigen Unterschied, dass kein Link zurückgeliefert wird, sondern direkt auf diese Seite weitergeleitet wird.
+Oftmals ist es notwendig auf eine andere Seite weiterzuleiten. Dies erfolgt über die `redirect`-Funktion. Diese funktioniert im Prinzip genau gleich, wie die `routelink`-Methode, mit dem einzigen Unterschied, dass kein Link zurückgeliefert wird, sondern direkt auf diese Seite weitergeleitet wird.
 
 ```php
 <?php
-$router->redirect("home");
+redirect("home");
 ```

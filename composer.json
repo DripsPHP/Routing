@@ -8,9 +8,13 @@
         "drips/http": ">=0.2",
         "drips/utils": ">=0.1"
     },
+    "suggest": {
+        "drips/mvc": "Ermöglicht Routing mittels MVC-System von Drips"
+    },
     "autoload": {
         "psr-4": {
             "Drips\\Routing\\": "src"
-        }
+        },
+        "files": ["src/functions.php"]
     }
 }

@@ -13,12 +13,13 @@ $_SERVER["SCRIPT_FILENAME"] = "";
 class RoutingTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @runInSeparateProcess
      * @dataProvider routeProvider
      */
     public function testRouting($route, $url, $result) {
         $request = new Request;
         $request->server->set('REQUEST_URI', $url);
-        $router = new Router($request);
+        $router = Router::getInstance($request);
         $router->add("test", $route, function() {});
         try {
             $res = $router->route();
@@ -35,7 +36,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     public function testMatchingRouter() {
         $request = new Request;
         $request->server->set('REQUEST_URI', "/users/admin");
-        $router = new Router($request);
+        $router = Router::getInstance($request);
         $router->add("users", "/users/{name}", function() {}, array("pattern" => ["name" => "([A-Z]+)"]));
         try {
             $router->route();
@@ -48,10 +49,13 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($router->add("users2", "/userz/{name}", function() {}, array("pattern" => ["name" => "([a-z]+)"])));
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testSecureRoute() {
         $request = new Request;
         $request->server->set('REQUEST_URI', "/secusers/asdf");
-        $router = new Router($request);
+        $router = Router::getInstance($request);
         $router->add("secure", "/secusers/{name}", function() {}, array("pattern" => ["name" => "([a-z]+)"], "https" => true));
         try {
             $router->route();
@@ -62,12 +66,17 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     public function testAsset() {
-        $router = new Router(new Request);
+        $router = Router::getInstance(new Request);
         $result = $router->getRoot()."images/rei.jpg";
         $this->assertEquals($router->asset("images/rei.jpg"), $result);
     }
 
+    public function testAssetFunc(){
+        $this->assertEquals(asset("images/rei.jpg"), Router::getInstance()->getRoot()."images/rei.jpg");
+    }
+
     /**
+     * @runInSeparateProcess
      * @dataProvider verbProvider
      * @preserveGlobalState
      */
@@ -75,7 +84,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $_SERVER['REQUEST_METHOD'] = $verb;
         $request = new Request;
         $request->server->set('REQUEST_URI',$url);
-        $router = new Router($request);
+        $router = Router::getInstance($request);
         $router->add("verb", $route_url, function() {}, $params);
         try {
             $this->assertEquals($router->route(), $expected);
@@ -89,11 +98,12 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @runInSeparateProcess
      * @dataProvider linkProvider
      */
     public function testRedirectWithHeadersAlreadySent($route_url, $params, $url) {
         ob_start();
-        $router = new Router(new Request);
+        $router = Router::getInstance(new Request);
         $router->add("redirectTo", $route_url, function() {});
         $expected = "<meta http-equiv='refresh' content='0, URL=".dirname($_SERVER["SCRIPT_FILENAME"]).$url."'>";
         $router->redirect("redirectTo", $params);
@@ -101,15 +111,42 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
+
     /**
+     * @runInSeparateProcess
+     * @dataProvider linkProvider
+     */
+    public function testRedirectFunc($route_url, $params, $url) {
+        ob_start();
+        Router::getInstance()->add("redirectTo", $route_url, function() {});
+        $expected = "<meta http-equiv='refresh' content='0, URL=".dirname($_SERVER["SCRIPT_FILENAME"]).$url."'>";
+        redirect("redirectTo", $params);
+        $result = ob_get_clean();
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @runInSeparateProcess
      * @dataProvider linkProvider
      */
     public function testLink($route_url, $params, $url) {
         $request = new Request;
         $request->server->set('REQUEST_URI', "/");
-        $router = new Router($request);
+        $router = Router::getInstance($request);
         $router->add("users", $route_url, function() {});
         $this->assertEquals($router->link("users", $params), dirname($_SERVER["SCRIPT_FILENAME"]).$url);
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @dataProvider linkProvider
+     */
+    public function testLinkFunc($route_url, $params, $url) {
+        $request = new Request;
+        $request->server->set('REQUEST_URI', "/");
+        $router = Router::getInstance($request);
+        $router->add("users", $route_url, function() {});
+        $this->assertEquals(routelink("users", $params), dirname($_SERVER["SCRIPT_FILENAME"]).$url);
     }
 
     public function routeProvider() {

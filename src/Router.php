@@ -80,6 +80,32 @@ class Router
     protected $request;
 
     /**
+     * Beinhaltet die Router-Instanz
+     *
+     * @var Router
+     */
+    private static $instance;
+
+    /**
+     * Gibt die Router-Instanz zurück (Singleton)
+     *
+     * @param Request $request
+     *
+     * @return Router
+     */
+    public static function getInstance(Request $request = null)
+    {
+        if(static::$instance === null){
+            if($request === null){
+                $request = new Request;
+            }
+            static::$instance = new Router($request);
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * Erzeugt eine neue Router-Instanz.
      * Übergeben wird die "aufgerufene" Route. Diese kann optional angegeben werden.
      * Wird diese nicht angegeben, wird automatisch die REQUEST_URI des Servers
@@ -87,7 +113,7 @@ class Router
      *
      * @param Request $request
      */
-    public function __construct(Request $request)
+    private function __construct(Request $request)
     {
         $this->request = $request;
         $request_uri = $request->server->get('REQUEST_URI');
@@ -95,6 +121,8 @@ class Router
         $this->drips_root = substr($this->current_path, strlen($request->server->get('DOCUMENT_ROOT'))).'/';
         $this->request_uri = substr($request_uri, strlen($this->drips_root));
     }
+
+    private function __clone(){}
 
     /**
      * Diese Methode wird zum Registrieren neuer Routen verwendet.

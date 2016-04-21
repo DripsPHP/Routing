@@ -6,6 +6,9 @@ php:
   - 7.0
   - hhvm
   - nightly
+matrix:
+  allow_failures:
+    - php: hhvm
 script:
   - composer require codeclimate/php-test-reporter --dev
   - composer update

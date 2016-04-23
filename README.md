@@ -29,6 +29,18 @@ Einfach eine `.htaccess` Datei im entsprechenden Verzeichnis hinzufügen:
 
 > Hierfür muss das Rewrite-Modul (`mod_rewrite`) des Webservers aktiviert sein.
 
+### NGINX
+
+Grundsätzlich müssen alle Anfragen an die `index.php` weitergeleitet werden. Hierfür kann folgende Konfiguration verwendet werden:
+
+```conf
+location / {
+    if(!-e $request_filename){
+        rewrite ^(.*)$ /index.php?__route__=$1;
+    }
+}
+```
+
 ## Verwendung
 
 ### Anlegen eines Routers

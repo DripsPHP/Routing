@@ -33,7 +33,7 @@ Einfach eine `.htaccess` Datei im entsprechenden Verzeichnis hinzufügen:
 
 Grundsätzlich müssen alle Anfragen an die `index.php` weitergeleitet werden. Hierfür kann folgende Konfiguration verwendet werden:
 
-```conf
+```nginx
 location / {
     if(!-e $request_filename){
         rewrite ^(.*)$ /index.php?__route__=$1;

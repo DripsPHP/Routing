@@ -153,6 +153,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         return array(
             ["/users", "/users", true],
             ["/users", "/users/", true],
+            ["/users", "/users/?user=abc", true],
             ["/users/{username}", "/users", false],
             ["/users/{username}", "/users/", false],
             ["/users/{username}", "/users/asdf", true],
@@ -192,7 +193,8 @@ class RoutingTest extends PHPUnit_Framework_TestCase
             ["/test", [], "/test", "POST", true],
             ["/test", [], "/test", "PATCH", true],
             ["/test", [], "/test", "PUT", true],
-            ["/test", [], "/test", "DELETE", true]
+            ["/test", [], "/test", "DELETE", true],
+            ["/test", ["verb" => array("get", "post")], "/test", "ABCD", false]
         );
     }
 

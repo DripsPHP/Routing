@@ -1,5 +1,9 @@
 # Changelog
 
+## MASTER
+
+ - Bugfix: GET-Parameter wurden in der URL nicht erkannt, dementsprechend konnte die Route nicht richtig zugeordnet werden.
+
 ## Version 0.2
 
  - Router als Singleton

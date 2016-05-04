@@ -120,6 +120,10 @@ class Router
         $this->current_path = dirname($request->server->get('SCRIPT_FILENAME'));
         $this->drips_root = substr($this->current_path, strlen($request->server->get('DOCUMENT_ROOT'))).'/';
         $this->request_uri = substr($request_uri, strlen($this->drips_root));
+        $parts = explode("#", $this->request_uri);
+        $this->request_uri = $parts[0];
+        $parts = explode("?", $this->request_uri);
+        $this->request_uri = $parts[0];
     }
 
     private function __clone(){}

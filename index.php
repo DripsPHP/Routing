@@ -6,12 +6,14 @@ use Drips\HTTP\Request;
 
 require_once __DIR__.'/vendor/autoload.php';
 
-$router = new Router(new Request);
+$router = Router::getInstance();
 
 $router->add('home', '/', function () use ($router) {
     echo '<h1>Hello World</h1>';
     echo "<a href='{$router->link('test')}'>Test</a>";
 });
+
+$router->add("pa", "/abc", CLASSSasdf::class);
 
 $router->add('test', '/test', function (Request $request) {
     echo 'Test ';
@@ -30,6 +32,7 @@ $router->add('param2', '/test/{param1}/{param2}', function (Request $request, $p
     var_dump("$param:$param2");
     $request->router->redirect("home");
 });
+
 
 try {
     $router->route();

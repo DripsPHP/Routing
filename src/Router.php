@@ -8,6 +8,7 @@
  */
 namespace Drips\Routing;
 
+use Exception;
 use Drips\HTTP\Request;
 use Drips\HTTP\Response;
 use Drips\Utils\OutputBuffer;
@@ -152,7 +153,7 @@ class Router
     public function add($name, $url, $callback, array $options = array())
     {
         if (!is_callable($callback) && !class_exists($callback)) {
-            return false;
+            throw new Exception("Ungültiges Callback bei Route: $name");
         }
 
         if (!$this->has($name)) {

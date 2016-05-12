@@ -210,6 +210,9 @@ class Router
         return $this->drips_root;
     }
 
+
+
+
     /**
      * Führt die Route aus, die unter dem Namen $name registriert ist.
      * Wurde die Route gefunden und ausgeführt wird TRUE zurückgeliefert, andernfalls
@@ -397,6 +400,26 @@ class Router
         }
 
         return $result;
+    }
+
+    /**
+     * Liefert alle registrierten Routen zurück.
+     *
+     * @return array
+     */
+    protected function getRoutes()
+    {
+        return $this->$routes;
+    }
+
+    /**
+     * Gibt zurück ob Routen bereits registriert wurden.
+     *
+     * @return bool
+     */
+    protected function hasRoutes()
+    {
+        return !empty($routes);
     }
 
     /**

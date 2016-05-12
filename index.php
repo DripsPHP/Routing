@@ -13,8 +13,6 @@ $router->add('home', '/', function () use ($router) {
     echo "<a href='{$router->link('test')}'>Test</a>";
 });
 
-$router->add("pa", "/abc", CLASSSasdf::class);
-
 $router->add('test', '/test', function (Request $request) {
     echo 'Test ';
     echo "<a href='{$request->router->link('param', ['param' => 1])}'>Test with 1</a> ";

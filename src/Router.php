@@ -407,17 +407,17 @@ class Router
      *
      * @return array
      */
-    protected function getRoutes()
+    public function getRoutes()
     {
         return $this->$routes;
     }
 
     /**
-     * Gibt zurück ob Routen bereits registriert wurden.
+     * Gibt zurück ob bereits Routen registriert wurden.
      *
      * @return bool
      */
-    protected function hasRoutes()
+    public function hasRoutes()
     {
         return !empty($routes);
     }

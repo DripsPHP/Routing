@@ -409,7 +409,7 @@ class Router
      */
     public function getRoutes()
     {
-        return $this->$routes;
+        return $this->routes;
     }
 
     /**
@@ -419,7 +419,7 @@ class Router
      */
     public function hasRoutes()
     {
-        return !empty($routes);
+        return !empty($this->routes);
     }
 
     /**

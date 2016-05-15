@@ -77,6 +77,18 @@ class RoutingTest extends PHPUnit_Framework_TestCase
 
     /**
      * @runInSeparateProcess
+     * @preserverGlobalState
+     */
+    public function testCurrentRoute(){
+        $_SERVER["REQUEST_URI"] = "/current_route_test";
+        $router = Router::getInstance();
+        $router->add("current_route_test", "/current_route_test", function(){});
+        $router->route();
+        $this->assertEquals($router->getCurrent(), "current_route_test");
+    }
+
+    /**
+     * @runInSeparateProcess
      * @dataProvider verbProvider
      * @preserveGlobalState
      */

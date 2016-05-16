@@ -120,6 +120,9 @@ class Router
         $request_uri = $request->server->get('REQUEST_URI');
         $this->current_path = dirname($request->server->get('SCRIPT_FILENAME'));
         $this->drips_root = substr($this->current_path, strlen($request->server->get('DOCUMENT_ROOT'))).'/';
+        if(strpos("/", $this->drips_root) !== 0){
+            $this->drips_root = "/".$this->drips_root;
+        }
         $this->request_uri = substr($request_uri, strlen($this->drips_root));
         $parts = explode("#", $this->request_uri);
         $this->request_uri = $parts[0];

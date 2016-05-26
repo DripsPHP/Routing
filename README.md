@@ -23,7 +23,7 @@ Einfach eine `.htaccess` Datei im entsprechenden Verzeichnis hinzufügen:
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ index.php?__route__=$1 [QSA]
+    RewriteRule ^(.*)$ index.php [QSA]
 </IfModule>
 ```
 
@@ -36,7 +36,7 @@ Grundsätzlich müssen alle Anfragen an die `index.php` weitergeleitet werden. H
 ```nginx
 location / {
     if(!-e $request_filename){
-        rewrite ^(.*)$ /index.php?__route__=$1;
+        rewrite ^(.*)$ /index.php;
     }
 }
 ```
@@ -131,6 +131,10 @@ Wenn der Router angelegt ist und alle Routen registriert sind, dann kann mit dem
 <?php
 $router->route();
 ```
+
+### Routen abfragen
+
+Die Methode `getRoutes()` liefert alle registrieren Routen zurück. Mithilfe der Funktion `hasRoutes()` kann überprüft werden, ob bereits Routen registriert wurden, oder nicht.
 
 ### Seite nicht gefunden - Error 404
 

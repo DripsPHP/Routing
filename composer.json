@@ -15,7 +15,7 @@
         "psr-4": {
             "Drips\\Routing\\": "src"
         },
-        "files": ["src/functions.php"]
+        "files": ["src/functions.php", "drips.php"]
     },
     "minimum-stability": "dev"
 }

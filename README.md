@@ -136,6 +136,20 @@ $router->route();
 
 Die Methode `getRoutes()` liefert alle registrieren Routen zurück. Mithilfe der Funktion `hasRoutes()` kann überprüft werden, ob bereits Routen registriert wurden, oder nicht.
 
+```php
+<?php
+if($router->hasRoutes()){
+	// Es sind bereits Routen registriert
+} else {
+	// Es sind noch keine Routen registriert
+}
+```
+
+```php
+<?php
+$routes = $router->getRoutes(); // returns array
+```
+
 ### Seite nicht gefunden - Error 404
 
 Wird keine entsprechende Route gefunden, wird eine `Error404Exception` geworfen.

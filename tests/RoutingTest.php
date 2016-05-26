@@ -161,6 +161,20 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(routelink("users", $params), dirname($_SERVER["SCRIPT_FILENAME"]).$url);
     }
 
+    /**
+     * @runInSeparateProcess
+     * @dataProvider linkProvider
+     */
+    public function testHasRoutesAndGetRoutes()
+    {
+        $router = Router::getInstance();
+        $this->assertFalse($router->hasRoutes());
+        $this->assertEmpty($router->getRoutes());
+        $router->add("test", "/test", function(){});
+        $this->assertTrue($router->hasRoutes());
+        $this->assertEquals(count($router->getRoutes()), 1);
+    }
+
     public function routeProvider() {
         return array(
             ["/users", "/users", true],

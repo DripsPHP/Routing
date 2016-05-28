@@ -2,7 +2,7 @@
 
 use Drips\Routing\Router;
 
-function routelink($name, array $params = array())
+function route($name, array $params = array())
 {
     return Router::getInstance()->link($name, $params);
 }

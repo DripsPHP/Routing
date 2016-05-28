@@ -158,7 +158,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $request->server->set('REQUEST_URI', "/");
         $router = Router::getInstance($request);
         $router->add("users", $route_url, function() {});
-        $this->assertEquals(routelink("users", $params), dirname($_SERVER["SCRIPT_FILENAME"]).$url);
+        $this->assertEquals(route("users", $params), dirname($_SERVER["SCRIPT_FILENAME"]).$url);
     }
 
     /**

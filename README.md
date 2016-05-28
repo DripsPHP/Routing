@@ -165,13 +165,13 @@ try {
 
 ### Links generieren
 
-Damit sich die URLs jederzeit ändern können und auch von unterschiedlichen Verzeichnissen aus aufgerufen werden können, werden die Verlinkungen mit Hilfe der `routelink` Funktion erzeugt.
+Damit sich die URLs jederzeit ändern können und auch von unterschiedlichen Verzeichnissen aus aufgerufen werden können, werden die Verlinkungen mit Hilfe der `route` Funktion erzeugt.
 
 Ein Link kann wie folgt generiert werden:
 
 ```php
 <?php
-$url = routelink("testRoute");
+$url = route("testRoute");
 ```
 
 Übergeben wird der Name der Route. Des Weiteren können bei Routen mit Platzhaltern die Links auch entsprechend erzeugt werden, indem einfach die Parameter als Array übergeben werden.
@@ -180,7 +180,7 @@ Angenommen es gibt eine Route `/users/{username}`:
 
 ```php
 <?php
-$url = routelink("users", array("username" => "admin"));
+$url = route("users", array("username" => "admin"));
 ```
 
 ### Assets

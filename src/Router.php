@@ -123,6 +123,7 @@ class Router
         if(strlen($this->drips_root) < 1 || $this->drips_root[0] != "/"){
             $this->drips_root = "/".$this->drips_root;
         }
+        $this->drips_root = substr($this->drips_root, 0, strlen($this->drips_root) - strlen('/public'));
         $this->request_uri = substr($request_uri, strlen($this->drips_root));
         $parts = explode("#", $this->request_uri);
         $this->request_uri = $parts[0];

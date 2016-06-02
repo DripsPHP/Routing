@@ -90,17 +90,12 @@ class Router
     /**
      * Gibt die Router-Instanz zurück (Singleton)
      *
-     * @param Request $request
-     *
      * @return Router
      */
-    public static function getInstance(Request $request = null)
+    public static function getInstance()
     {
         if(static::$instance === null){
-            if($request === null){
-                $request = new Request;
-            }
-            static::$instance = new Router($request);
+            static::$instance = new Router;
         }
 
         return static::$instance;
@@ -108,18 +103,13 @@ class Router
 
     /**
      * Erzeugt eine neue Router-Instanz.
-     * Übergeben wird die "aufgerufene" Route. Diese kann optional angegeben werden.
-     * Wird diese nicht angegeben, wird automatisch die REQUEST_URI des Servers
-     * verwendet.
-     *
-     * @param Request $request
      */
-    private function __construct(Request $request)
+    private function __construct()
     {
-        $this->request = $request;
-        $request_uri = $request->server->get('REQUEST_URI');
-        $this->current_path = dirname($request->server->get('SCRIPT_FILENAME'));
-        $this->drips_root = substr($this->current_path, strlen($request->server->get('DOCUMENT_ROOT'))).'/';
+        $this->request = Request::getInstance();
+        $request_uri = $this->request->server->get('REQUEST_URI');
+        $this->current_path = dirname($this->request->server->get('SCRIPT_FILENAME'));
+        $this->drips_root = substr($this->current_path, strlen($this->request->server->get('DOCUMENT_ROOT'))).'/';
         $this->drips_root = substr($this->drips_root, 0, strlen($this->drips_root) - strlen('/public'));
         $this->request_uri = substr($request_uri, strlen($this->drips_root));
         if(strlen($this->drips_root) < 1 || $this->drips_root[0] != "/"){
@@ -232,10 +222,9 @@ class Router
             if (empty($params)) {
                 $params = $this->params;
             }
-            $this->request->router = $this;
             $callback = $this->routes[$name]['callback'];
-            array_unshift($params, $this->request);
             if (is_callable($callback)) {
+                $params[] = $this->request;
                 $response = new Response();
                 $buffer = new OutputBuffer();
                 $buffer->start();
@@ -266,7 +255,7 @@ class Router
             $route = $this->routes[$name];
             if (isset($route['options']['https'])) {
                 $https = $route['options']['https'];
-                $server_https = filter_input(INPUT_SERVER, 'HTTPS');
+                $server_https = $this->request->server->get('HTTPS');
                 if ($https === true && (empty($server_https) || $server_https == 'off')) {
                     return false;
                 }
@@ -292,7 +281,7 @@ class Router
             $route = $this->routes[$name];
             if (isset($route['options']['verb'])) {
                 $verbs = $route['options']['verb'];
-                $request_method = $_SERVER['REQUEST_METHOD'];
+                $request_method = $this->request->server->get('REQUEST_METHOD');
                 if (is_array($verbs) && !in_array(strtoupper($request_method), $verbs)) {
                     return false;
                 } elseif (!is_array($verbs) && strtoupper($request_method) != $verbs) {
@@ -320,7 +309,7 @@ class Router
             $route = $this->routes[$name];
             if (isset($route['options']['domain'])) {
                 $domains = $route['options']['domain'];
-                $http_host = filter_input(INPUT_SERVER, 'HTTP_HOST');
+                $http_host = $this->request->server('HTTP_HOST');
                 if (is_array($domains) && !in_array($http_host, $domains)) {
                     return false;
                 } elseif (!is_array($domains) && $http_host != $domains) {

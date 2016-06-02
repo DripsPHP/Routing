@@ -224,7 +224,6 @@ class Router
             }
             $callback = $this->routes[$name]['callback'];
             if (is_callable($callback)) {
-                $params[] = $this->request;
                 $response = new Response();
                 $buffer = new OutputBuffer();
                 $buffer->start();

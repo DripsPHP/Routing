@@ -80,11 +80,11 @@ $router->add("name_der_route", "/my/url", MyController::class);
 #### Routen mit Platzhaltern
 
 Oftmals sind Routen dynamisch. Deshalb können die Routen auch mit Platzhaltern versehen werden. Ein Platzhalter verwendet folgende Schreibweise: `{name_des_platzhalters}`.
-Die übergebene Funktion erhält zunächst als ersten Parameter immer ein `Request`-Objekt (siehe [HTTP](http://github.com/Prowect/HTTP)). Alle folgenden Parameter entsprechen den jeweiligen Platzhaltern. (Die Reihenfolge der Parameter ist zwingend einzuhalten!)
+Alle Parameter entsprechen den jeweiligen Platzhaltern. (Die Reihenfolge der Parameter ist zwingend einzuhalten!)
 
 ```php
 <?php
-$router->add("name_der_route", "/my/url/{name}", function(Request $request, $name){
+$router->add("name_der_route", "/my/url/{name}", function($name){
     echo "Hello $name!";
 });
 ```
@@ -93,7 +93,7 @@ Außerdem können die Platzhalter mithilfe von regulären Ausdrücken eingeschr�
 
 ```php
 <?php
-$router->add("name_der_route", "/my/url/{name}", function(Request $request, $name){
+$router->add("name_der_route", "/my/url/{name}", function($name){
     echo "Hello $name!";
 }, array(
     "pattern" => array(

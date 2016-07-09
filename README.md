@@ -35,7 +35,7 @@ Grundsätzlich müssen alle Anfragen an die `index.php` weitergeleitet werden. H
 
 ```nginx
 location / {
-    if(!-e $request_filename){
+    if (!-e $request_filename) {
         rewrite ^(.*)$ /index.php;
     }
 }

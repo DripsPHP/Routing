@@ -1,5 +1,7 @@
 <?php
 
+define('AUTO_ROUTE', "(?:\/(\w+)?)");
+
 use Drips\Routing\Router;
 
 function route($name, array $params = array())

@@ -390,10 +390,12 @@ class Router
         if(stripos($url, AUTO_ROUTE) !== false){
             $url = str_replace('[auto]', '', $url);
             if(preg_match("`^$url`", $request)){
-                $this->params = explode('/', substr($request, count($url) - 1));
+                $this->params = explode('/', substr($request, strlen($url) + 1));
+
                 return true;
             }
         }
+
         $matches = array();
         $result = preg_match("`^$url$`", $request, $matches);
         if (count($matches) >= 2) {

@@ -1,6 +1,8 @@
 <?php
 
-define('AUTO_ROUTE', "(?:\/(\w+)?)");
+if(!defined('AUTO_ROUTE')){
+    define('AUTO_ROUTE', '[auto]');
+}
 
 use Drips\Routing\Router;
 

@@ -5,8 +5,8 @@
     "license": "MIT",
     "require": {
         "php": ">=5.4",
-        "drips/http": "dev-master",
-        "drips/utils": "dev-master"
+        "drips/http": "^1.0",
+        "drips/utils": "^1.0"
     },
     "suggest": {
         "drips/mvc": "Ermöglicht Routing mittels MVC-System von Drips"
@@ -16,6 +16,5 @@
             "Drips\\Routing\\": "src"
         },
         "files": ["src/functions.php", "drips.php"]
-    },
-    "minimum-stability": "dev"
+    }
 }

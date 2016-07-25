@@ -11,9 +11,6 @@ Das Routing ist zuständig für die Auslösung der URLs zu PHP-Funktionen. Somit
 
 ## Installation
 
-1. Die entsprechende PHP-Datei (`router.php`) muss included werden.
-2. Je nach Webserver muss berücksichtigt werden, dass alle Requests, an das entsprechende Script weitergegeben werden.
-
 ### Apache 2
 
 Einfach eine `.htaccess` Datei im entsprechenden Verzeichnis hinzufügen:
@@ -200,3 +197,7 @@ Oftmals ist es notwendig auf eine andere Seite weiterzuleiten. Dies erfolgt übe
 <?php
 redirect("home");
 ```
+
+### Automatisches Routing
+
+Die Route wird wie folgt definiert: `/my/url/[auto]`. Somit werden alle Informationen die nach `/my/url/` folgen als Parameter übergeben.

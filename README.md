@@ -200,3 +200,7 @@ Oftmals ist es notwendig auf eine andere Seite weiterzuleiten. Dies erfolgt übe
 <?php
 redirect("home");
 ```
+
+### Automatisches Routing
+
+Die Route wird wie folgt definiert: `/my/url/[auto]`. Somit werden alle Informationen die nach `/my/url/` folgen als Parameter übergeben.

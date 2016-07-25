@@ -19,12 +19,12 @@ if (class_exists('Drips\App')) {
                 }
             }
         }
-        $app->router = Router::getInstance();
     });
 
     App::on('startup', function (App $app) {
-        if ($app->router->hasRoutes()) {
-            $app->router->route();
+        $router = Router::getInstance();
+        if ($router->hasRoutes()) {
+            $router->route();
         } else {
             throw new NoRoutesException();
         }

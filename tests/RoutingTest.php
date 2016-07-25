@@ -7,7 +7,6 @@ use Drips\Routing\Router;
 use Drips\Routing\Error404Exception;
 use Drips\HTTP\Request;
 
-session_start();
 $_SERVER["SCRIPT_FILENAME"] = "";
 
 class RoutingTest extends PHPUnit_Framework_TestCase

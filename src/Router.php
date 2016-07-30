@@ -388,9 +388,12 @@ class Router
     {
         $request = trim($this->request_uri, '/');
         if(stripos($url, AUTO_ROUTE) !== false){
-            $url = str_replace('[auto]', '', $url);
+            $url = trim(str_replace('[auto]', '', $url), '/');
             if(preg_match("`^$url`", $request)){
-                $this->params = explode('/', substr($request, strlen($url) + 1));
+                $this->params = explode('/', substr($request, strlen($url)));
+                if(count($this->params) == 1 && empty($this->params[0])){
+                    $this->params = array();
+                }
 
                 return true;
             }

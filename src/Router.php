@@ -445,7 +445,7 @@ class Router
                 $url = str_replace('{'.$key.'}', $val, $url);
             }
             $url = preg_replace("/\{\w+\}/", '', $url);
-            $name = ltrim($url, '/');
+            $name = ltrim(str_replace(AUTO_ROUTE, '', $url), '/');
         }
 
         return $this->asset($name);

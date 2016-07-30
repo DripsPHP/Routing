@@ -391,8 +391,8 @@ class Router
             $url = trim(str_replace('[auto]', '', $url), '/');
             if(preg_match("`^$url`", $request)){
                 $this->params = explode('/', substr($request, strlen($url)));
-                if(count($this->params) == 1 && empty($this->params[0])){
-                    $this->params = array();
+                if(count($this->params) > 0 && empty($this->params[0])){
+                    array_shift($this->params);
                 }
 
                 return true;
